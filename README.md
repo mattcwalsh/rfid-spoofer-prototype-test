@@ -14,14 +14,14 @@ List to be updated as parts are added:
 - 3.3V AVR Power Supply
 - RC522 RFID Reader
 
-### Metadata/Contact
+## Metadata/Contact
 
-## Release History
+### Release History
 
 * 0.0.1
    * Initialized repo, updated README.md.
    * Prototype work in progress.
 
-## Contact Info
+### Contact Info
 Matthew Charles Walsh - mwals003@ucr.edu
 [Website](https://github.com/mattcwalsh) | [LinkedIn](https://github.com/mattcwalsh) | [GitHub](https://github.com/mattcwalsh)
