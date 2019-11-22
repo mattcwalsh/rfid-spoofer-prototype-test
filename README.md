@@ -24,4 +24,5 @@ List to be updated as parts are added:
 
 ### Contact Info
 Matthew Charles Walsh - mwals003@ucr.edu
+
 [Website](https://github.com/mattcwalsh) | [LinkedIn](https://github.com/mattcwalsh) | [GitHub](https://github.com/mattcwalsh)
