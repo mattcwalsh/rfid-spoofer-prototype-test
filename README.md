@@ -7,13 +7,14 @@ Prototype for an NFC/RFID duplicator built using the ATmega1284.
 The finished prototype will be able to:
 - Read and store serialized NFC signals.
 - Write to empty NFC chips/keys/cards.
-- Keep signals after system is turned off.
+- Keep stored signals when system is turned off.
 
 ### Component List
 List to be updated as parts are added:
 - ATmega1284 Microcontroller
 - 3.3V AVR Power Supply
-- RC522 RFID Reader
+- MFRC522 RFID Reader
+- 1602 Serial 5V LCD Display
 
 ## Metadata/Contact
 
