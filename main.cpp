@@ -7,20 +7,17 @@
  *	code, is my own original work.
  */
 #include <avr/io.h>
-#include <avr/interrupt.h>
-#include <avr/eeprom.h>
-#ifdef _SIMULATE_
-#include "simAVRHeader.h"
-// #include "header/eeprom.h"
-// #include "header/io.h"
-#endif
+// #include <avr/interrupt.h>
+// #include <avr/eeprom.h>
+// #include "lcd.h"
+#include "bit.h"
 
 #define output PORTB
 
 #define buttonR (~PINA & 0x01)			// RIGHT
 #define buttonL ((~PINA & 0x02) >> 1)	// LEFT
 #define buttonS ((~PINA & 0x04) >> 2)	// SIGNAL
-#define buttonI ((~PINA & 0x08) >> 3)	// RECORD
+#define buttonI ((~PINA & 0x08) >> 3)	// INPUT
 
 #define led 0x01
 
@@ -33,6 +30,91 @@ unsigned long _avr_timer_cntcurr = 0;
 
 #define MAX_ADDR 1024
 int maxaddr = 0;
+
+/*******************************************************************/
+/*
+unsigned char SetBit(unsigned char pin, unsigned char number, unsigned char bin_value) {
+	return (bin_value ? pin | (0x01 << number) : pin & ~(0x01 << number));
+}
+
+unsigned char GetBit(unsigned char port, unsigned char number) {
+	return ( port & (0x01 << number) );
+}
+*/
+/*******************************************************************/
+
+#define SET_BIT(p,i) ((p) |= (1 << (i)))
+#define CLR_BIT(p,i) ((p) &= ~(1 << (i)))
+#define GET_BIT(p,i) ((p) & (1 << (i)))
+
+// Define LCD outputs.
+#define DATA_BUS PORTC
+#define CONTROL_BUS PORTD
+#define RS 6
+#define E 7
+
+// For 8 MHz crystal.
+void delay_ms(int miliSec) {
+	int i, j;
+	for(i=0; i<miliSec; i++)
+	for(j=0; j<775; j++) {
+		asm("nop");
+	}
+}
+
+// Reordered for debugging purposes.
+void LCD_WriteCommand (unsigned char Command) {
+	CLR_BIT(CONTROL_BUS, RS);
+	DATA_BUS = Command;
+	SET_BIT(CONTROL_BUS, E);
+	asm("nop");
+	CLR_BIT(CONTROL_BUS, E);
+	delay_ms(2);
+}
+
+// Reordered for debugging purposes.
+void LCD_WriteData(unsigned char Data) {
+	SET_BIT(CONTROL_BUS,RS);
+	DATA_BUS = Data;
+	SET_BIT(CONTROL_BUS,E);
+	asm("nop");
+	CLR_BIT(CONTROL_BUS,E);
+	delay_ms(1);
+}
+
+// Reordered for debugging purposes.
+void LCD_Cursor (unsigned char column) {
+	if ( column < 17 ) {
+		LCD_WriteCommand(0x80 + column - 1);
+		} else {
+		LCD_WriteCommand(0xB8 + column - 9);
+	}
+}
+
+// Reordered for debugging purposes.
+void LCD_ClearScreen(void) {
+	LCD_WriteCommand(0x01);
+}
+
+// Reordered for debugging purposes.
+void LCD_init(void) {
+	delay_ms(100);
+	LCD_WriteCommand(0x38);
+	LCD_WriteCommand(0x06);
+	LCD_WriteCommand(0x0f);
+	LCD_WriteCommand(0x01);
+	delay_ms(10);
+}
+
+// Reordered for debugging purposes.
+void LCD_DisplayString(unsigned char column ,const unsigned char *string) {
+	LCD_ClearScreen();
+	unsigned char c = column;
+	while(*string) {
+		LCD_Cursor(c++);
+		LCD_WriteData(*string++);
+	}
+}
 
 /*******************************************************************/
 
@@ -75,6 +157,7 @@ void LCD_addChar(unsigned char *icon) {
 
 /*******************************************************************/
 
+/*
 void eeprom_transfer(double in[]) { 
     // transfers an array to eeprom
     // first word is size, the rest is the array.
@@ -98,7 +181,7 @@ void eeprom_load_array(double out[], int size) {
     for (i = 2; i <= (size); i += 1){
         out[i-2] = eeprom_read_word((uint16_t*) i);
     }
-}
+} */
 
 /*******************************************************************/
 
