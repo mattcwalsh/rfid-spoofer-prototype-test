@@ -19,6 +19,10 @@ List to be updated as parts are added:
 - HW-504 Analog Joystick
 - Breadboard PCB Speaker
 
+## User Guide
+
+Usage of the prototype is as follows:
+
 ## Metadata/Contact
 
 ### Release History
