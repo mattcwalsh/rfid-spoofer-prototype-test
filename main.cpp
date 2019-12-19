@@ -12,25 +12,6 @@
 // #include "lcd.h"
 #include "bit.h"
 
-#define output PORTB
-
-#define buttonR (~PINA & 0x01)			// RIGHT
-#define buttonL ((~PINA & 0x02) >> 1)	// LEFT
-#define buttonS ((~PINA & 0x04) >> 2)	// SIGNAL
-#define buttonI ((~PINA & 0x08) >> 3)	// INPUT
-
-#define led 0x01
-
-#define ICON 0b00000000
-
-volatile unsigned char TimerFlag = 0;
-
-unsigned long _avr_timer_M = 1;
-unsigned long _avr_timer_cntcurr = 0;
-
-#define MAX_ADDR 1024
-int maxaddr = 0;
-
 /*******************************************************************/
 /*
 unsigned char SetBit(unsigned char pin, unsigned char number, unsigned char bin_value) {
